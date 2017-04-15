@@ -1,13 +1,9 @@
 const startGameButtons = $('.js-start-game');
 
-startGameButtons.on('click', startGame);
+startGameButtons.on('click', createRoom);
 
-function startGame(){
-  const url = `/room/${generateRoomId()}`;
-
+function createRoom(){
+  const url = `/room/${generateId(4)}`;
+  console.log(url);
   window.location.href = url;
-}
-
-function generateRoomId() {
-  return Math.random().toString(36).slice(-4);
 }
