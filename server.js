@@ -13,7 +13,7 @@ app.set('views', path.join(__dirname, 'templates'))
 app.set('view engine', 'ejs')
 
 app.get('/', function (req, res) {
-  res.status(200).render('index.ejs');
+  res.status(200).render('index.ejs', {request: req});
 });
 
 app.get('/room/:id', function (req, res) {
@@ -21,17 +21,21 @@ app.get('/room/:id', function (req, res) {
 })
 
 io.on('connection', function (socket) {
-  socket.on('addPlayer', function (ROOMID) {
+  socket.on('addPlayer', function({ROOMID, playerId}) {
+    // console.log(playerId);
     if (games[ROOMID]) {
-      games[ROOMID].push(socket.id)
+      const isPlayerIdExist = games[ROOMID].includes(playerId); //!!(games[ROOMID].find(id => id === playerId));
+      if (!isPlayerIdExist) {
+        games[ROOMID].push(playerId)
+      }
       if (games[ROOMID].length >= 2) {
         io.to(ROOMID).emit('start game', {
-          player1:games[ROOMID][0],
-          player2:games[ROOMID][1]
+          players: [games[ROOMID][0], games[ROOMID][1]],
+          viewers:games[ROOMID].slice(2),
         })
       }
     } else {
-      games[ROOMID] = [socket.id];
+      games[ROOMID] = [playerId];
     }
 
 
