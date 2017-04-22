@@ -12,20 +12,20 @@ const plugins = [
 ];
 const BS = require('browser-sync');
 
-gulp.task('javascripts', () => {
-  gulp.src('src/**/*.js')
-  .pipe($.babel({
-    presets: ['es2015']
-  }))
-  .pipe($.concat('app.js'))
-  .pipe(gulp.dest('./static/'))
-  .pipe(BS.reload({
-    stream: true,
-  }));
-});
+// gulp.task('javascripts', () => {
+//   gulp.src('src/**/*.js')
+//   .pipe($.babel({
+//     presets: ['es2015']
+//   }))
+//   .pipe($.concat('app.js'))
+//   .pipe(gulp.dest('./static/'))
+//   .pipe(BS.reload({
+//     stream: true,
+//   }));
+// });
 
 gulp.task('styles', () => {
-  gulp.src('src/**/*.css')
+  gulp.src(['src/**/*.css', 'components/**/*.css'])
   .pipe($.postcss(plugins))
   .pipe($.concat('app.css'))
   .pipe(gulp.dest('./static/'))
@@ -41,9 +41,9 @@ gulp.task('server', () => {
     open: false,
   })
 })
-gulp.task('watch', ['javascripts', 'styles'], () => {
-  gulp.watch(['src/**/*.js'], ['javascripts']);
-  gulp.watch(['src/**/*.css'], ['styles']);
+gulp.task('watch', ['styles'], () => {
+  // gulp.watch(['src/**/*.js'], ['javascripts']);
+  gulp.watch(['src/**/*.css', 'components/**/*.css'], ['styles']);
   gulp.watch(['templates/**/*.ejs'], () => {
     BS.reload();
   });
