@@ -12,23 +12,25 @@ app.use('/static', express.static('static'))
 app.set('views', path.join(__dirname, 'templates'))
 app.set('view engine', 'ejs')
 
-app.get('/', function (req, res) {
+app.get('*', function (req, res) {
   res.status(200).render('index.ejs', {request: req});
 });
 
-app.get('/room/:id', function (req, res) {
-  res.status(200).render('room.ejs', {request: req});
-})
+// app.get('/room/:id', function (req, res) {
+//   res.status(200).render('room.ejs', {request: req});
+// })
 
 io.on('connection', function (socket) {
   socket.on('addPlayer', function({ROOMID, playerId}) {
-    // console.log(playerId);
+    console.log('playerId: ', playerId);
+    console.log('ROOMID: ', ROOMID);
     if (games[ROOMID]) {
       const isPlayerIdExist = games[ROOMID].includes(playerId); //!!(games[ROOMID].find(id => id === playerId));
       if (!isPlayerIdExist) {
         games[ROOMID].push(playerId)
       }
       if (games[ROOMID].length >= 2) {
+        console.log('start game: ', ROOMID);
         io.to(ROOMID).emit('start game', {
           players: [games[ROOMID][0], games[ROOMID][1]],
           viewers:games[ROOMID].slice(2),
@@ -40,9 +42,9 @@ io.on('connection', function (socket) {
 
 
     socket.join(ROOMID, function(){
+      console.log('player added: ', ROOMID);
       io.to(ROOMID).emit('player added', socket.id);
     });
-
   });
 });
 
