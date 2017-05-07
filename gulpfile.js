@@ -1,8 +1,10 @@
 const gulp = require('gulp');
 const gulpLoadPlugins = require('gulp-load-plugins');
+const scss = require('postcss-scss');
 const $ = gulpLoadPlugins();
 const plugins = [
-  require('cssnext'),
+  require('postcss-nested'),
+  require('postcss-responsive-type'),
   require('autoprefixer'),
   require('cssnano')({
     autoprefixer: false,
@@ -25,8 +27,8 @@ const BS = require('browser-sync');
 // });
 
 gulp.task('styles', () => {
-  gulp.src(['src/**/*.css', 'components/**/*.css'])
-  .pipe($.postcss(plugins))
+  gulp.src(['src/**/*.scss', 'components/**/*.scss'])
+  .pipe($.postcss(plugins, { parser: scss }))
   .pipe($.concat('app.css'))
   .pipe(gulp.dest('./static/'))
   .pipe(BS.reload({
@@ -43,7 +45,7 @@ gulp.task('server', () => {
 })
 gulp.task('watch', ['styles'], () => {
   // gulp.watch(['src/**/*.js'], ['javascripts']);
-  gulp.watch(['src/**/*.css', 'components/**/*.css'], ['styles']);
+  gulp.watch(['src/**/*.scss', 'components/**/*.scss'], ['styles']);
   gulp.watch(['templates/**/*.ejs'], () => {
     BS.reload();
   });
