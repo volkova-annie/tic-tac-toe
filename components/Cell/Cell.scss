@@ -1,0 +1,39 @@
+.cell {
+  width: 33.3333%;
+  border: 2px solid #000000;
+  border-collapse: collapse;
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  align-content: center;
+  align-items: center;
+
+
+  &:before {
+    font-size: 1vw;
+    line-height: 0;
+    text-align: center;
+    flex-grow: 1;
+    font-size: responsive 50px 100px;
+    font-range: 150px 300px;
+    margin-top: -18%;
+  }
+
+  &:hover {
+    background:transparent;
+    background-image: linear-gradient(#dedede, #f4f4f4, #fefefe);
+    box-shadow: inset 0 0 7px rgba(0,0,0,0.1);
+  }
+
+  &.is-nought {
+    &:before {
+      content: '○';
+    }
+  }
+
+  &.is-cross {
+    &:before {
+      content: '×';
+    }
+  }
+}
