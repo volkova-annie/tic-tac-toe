@@ -6,7 +6,7 @@ class Field extends Component {
     const rowsArray = [];
     const {rows} = this.props;
     for (let i=0; i<rows; i++) {
-      rowsArray.push(<div key={`row-${i}`} className='row'>{this.renderCols()}</div>);
+      rowsArray.push(<div key={`row-${i}`} className='field_row'>{this.renderCols()}</div>);
     }
     return rowsArray;
   }
@@ -20,7 +20,7 @@ class Field extends Component {
   }
 
   render(){
-    return <div>field
+    return <div className='field'>
       {this.renderRows()}
     </div>
   }

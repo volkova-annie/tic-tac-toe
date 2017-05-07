@@ -1,0 +1,15 @@
+.field {
+  border: 1px solid #000000;
+  width: 300px;
+  max-width: 100%;
+  margin: 0 auto;
+  height: 300px;
+  max-height: 100vw;
+  display: flex;
+  flex-direction: column;
+}
+
+.field_row {
+  display: flex;
+  flex-grow: 1;
+}
