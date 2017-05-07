@@ -31,10 +31,12 @@ io.on('connection', function (socket) {
       }
       if (games[ROOMID].length >= 2) {
         console.log('start game: ', ROOMID);
-        io.to(ROOMID).emit('start game', {
-          players: [games[ROOMID][0], games[ROOMID][1]],
-          viewers:games[ROOMID].slice(2),
-        })
+        setTimeout(function() {
+          io.to(ROOMID).emit('start game', {
+            players: [games[ROOMID][0], games[ROOMID][1]],
+            viewers: games[ROOMID].slice(2),
+          })
+        }, 1000)
       }
     } else {
       games[ROOMID] = [playerId];
