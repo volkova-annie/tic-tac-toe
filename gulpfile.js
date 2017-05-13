@@ -41,6 +41,11 @@ gulp.task('server', () => {
     proxy: 'localhost:4000',
     files: ['static/**/*'],
     open: false,
+    ghostMode: {
+      clicks: false,
+      forms: false,
+      scroll: false,
+    }
   })
 })
 gulp.task('watch', ['styles'], () => {
