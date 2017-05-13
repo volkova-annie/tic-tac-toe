@@ -10,6 +10,7 @@ class Container extends Component {
       page: this.pathStartWith('/room') ? 'room' : 'index',
       roomId: this.getRoomIdFromUrl(),
       socket: io.connect('http://localhost:4000'),
+      players: [],
     }
   }
 
@@ -39,7 +40,6 @@ class Container extends Component {
   componentDidMount() {
     this.state.socket.on('start game', this.startGame)
     this.state.socket.on('connect', () => {
-      console.log("hello");
       if (this.state.roomId) {
         let playerId = getCookie('player_id');
         if (!playerId) {
@@ -54,6 +54,7 @@ class Container extends Component {
   startGame = (people) => {
     let playerId = getCookie('player_id');
     if (people.players.includes(playerId)) {
+      this.setState({players:people.players});
       console.log('You r player');
     } else {
       console.log('You r viewer');
@@ -67,7 +68,7 @@ class Container extends Component {
         return <Button type="primary" onClick={this.createRoom}>Начать игру!</Button>
         break;
       case 'room':
-        return <Room id={this.state.roomId} socket={this.state.socket}/>
+        return <Room players={this.state.players} id={this.state.roomId} socket={this.state.socket}/>
         break
       default:
         return null;
