@@ -2,7 +2,10 @@ import React, {Component} from 'react';
 
 class Cell extends Component {
   render(){
-    return <div className='cell'></div>
+    const {players, player} = this.props;
+    const playerIndex = players.indexOf(player);
+    const signs = ['is-cross', 'is-nought']
+    return <div onClick={this.props.onClick} className={'cell '+signs[playerIndex]}></div>
   }
 }
 
